@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from management.models import MyUser, Book, Img
+from management.models import MyUser, Book
 from django.core.urlresolvers import reverse
 from management.utils import permission_check
 
@@ -172,29 +172,3 @@ def detail(request):
     }
     return render(request, 'management/detail.html', content)
 
-
-@user_passes_test(permission_check)
-def add_img(request):
-    user = request.user
-    state = None
-    if request.method == 'POST':
-        try:
-            new_img = Img(
-                    name=request.POST.get('name', ''),
-                    description=request.POST.get('description', ''),
-                    img=request.FILES.get('img', ''),
-                    book=Book.objects.get(pk=request.POST.get('book', ''))
-            )
-            new_img.save()
-        except Book.DoesNotExist as e:
-            state = 'error'
-            print(e)
-        else:
-            state = 'success'
-    content = {
-        'user': user,
-        'state': state,
-        'book_list': Book.objects.all(),
-        'active_menu': 'add_img',
-    }
-    return render(request, 'management/add_img.html', content)

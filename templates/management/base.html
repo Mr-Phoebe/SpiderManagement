@@ -1,6 +1,7 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="zh-cn">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,10 +13,11 @@
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <!--[if lt IE 9]>
-			<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-			<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+            <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
 </head>
+
 <body>
 <!--Here is the navbar-->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -29,7 +31,6 @@
             </button>
             <a href="{% url 'homepage' %}" class="navbar-brand">Spider</a>
         </div>
-
         <div class="collapse navbar-collapse" id="navbar-collapse-basepage">
             <ul class="nav navbar-nav">
                 <li id="homepage"><a href="{% url 'homepage' %}">主页</a></li>
@@ -41,7 +42,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user %}
-                    <li><p class="navbar-text">欢迎你&nbsp;&nbsp;<span id="base_name">{{ user.myuser.nickname }}</span></p>
+                    <li>
+                        <p class="navbar-text">欢迎你&nbsp;&nbsp;<span id="base_name">{{ user.myuser.nickname }}</span></p>
                     </li>
                     <li><a href="{% url 'logout' %}">注销</a></li>
                     <li><a href="{% url 'set_password' %}">修改密码</a></li>
@@ -51,22 +53,27 @@
                 {% endif %}
             </ul>
         </div>
-
     </div>
 </nav>
 <!-- /nav -->
 <!-- header -->
 <header class="jumbotron subhead" id="header-base">
     <div class="container">
-        <h1>爬虫管理系统</h1>
-        <h3>&emsp;&emsp;触手可及的大数据</h3>
+        <div class="row">
+            <div class="col-md-8">
+                <h1>爬虫管理系统</h1>
+                <h3>&emsp;&emsp;触手可及的大数据</h3>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static "img/spider.png" %}" style="width: 70%">
+            </div>
+        </div>
     </div>
 </header>
 <!-- /.header -->
 <!-- main part -->
 {% block content %}{% endblock %}
 <!-- /.main -->
-
 <!-- footer -->
 <footer class="footer" role="contentinfo">
     <hr>
@@ -80,4 +87,5 @@
     $('#{{active_menu}}').addClass("active");
 </script>
 </body>
+
 </html>

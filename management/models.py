@@ -27,14 +27,4 @@ class Book(models.Model):
         return self.name
 
 
-class Img(models.Model):
-    name = models.CharField(max_length=128)
-    description = models.TextField()
-    img = models.ImageField(upload_to='image/%Y/%m/%d/')
-    book = models.ForeignKey(Book)
 
-    class META:
-        ordering = ['name']
-
-    def __unicode__(self):
-        return self.name
