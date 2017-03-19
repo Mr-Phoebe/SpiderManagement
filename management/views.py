@@ -101,7 +101,6 @@ def set_password(request):
     return render(request, 'management/set_password.html', content)
 
 
-@user_passes_test(permission_check)
 def add_book(request):
     user = request.user
     state = None

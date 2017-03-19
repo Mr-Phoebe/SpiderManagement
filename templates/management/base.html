@@ -34,10 +34,9 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-basepage">
             <ul class="nav navbar-nav">
                 <li id="homepage"><a href="{% url 'homepage' %}">主页</a></li>
-                {% if user.myuser.permission > 1 %}
-                    <li id="add_book"><a href="{% url 'add_book' %}">添加任务</a></li>
-                    <li id="add_img"><a href="{% url 'add_img' %}">添加图片</a></li>
-                {% endif %}
+
+                <li id="add_book"><a href="{% url 'add_book' %}">添加任务</a></li>
+
                 <li id="view_book"><a href="{% url 'view_book_list' %}">查看任务</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

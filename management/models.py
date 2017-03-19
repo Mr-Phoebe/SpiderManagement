@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 class MyUser(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=16)
-    permission = models.IntegerField(default=1)
+
+    # permission = models.IntegerField(default=1)
 
     def __unicode__(self):
         return self.user.username
@@ -27,4 +28,6 @@ class Book(models.Model):
         return self.name
 
 
-
+class Task(models.Model):
+    user = models.ForeignKey(MyUser, related_name='task')
+    url = models.CharField(max_length=200, null=True)
