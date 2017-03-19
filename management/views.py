@@ -4,9 +4,8 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from management.models import MyUser, Book
+from management.models import MyUser, Book, Task, TaskFile
 from django.core.urlresolvers import reverse
-from management.utils import permission_check
 
 
 def index(request):
@@ -121,6 +120,24 @@ def add_book(request):
     }
     return render(request, 'management/add_book.html', content)
 
+
+def add_task(request):
+    user = request.user
+    state = None
+    if request.method == 'POST':
+        new_task = Task(
+            name=request.POST.get('name', ''),
+            user=user.myuser,
+            url=request.POST.get('url', ''),
+        )
+        new_task.save()
+        state = 'success'
+    content = {
+        'user': user,
+        'active_menu': 'add_task',
+        'state': state,
+    }
+    return render(request, 'management/add_task.html', content)
 
 def view_book_list(request):
     user = request.user if request.user.is_authenticated() else None
