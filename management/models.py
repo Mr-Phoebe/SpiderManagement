@@ -8,8 +8,6 @@ class MyUser(models.Model):
     user = models.OneToOneField(User)
     nickname = models.CharField(max_length=16)
 
-    # permission = models.IntegerField(default=1)
-
     def __unicode__(self):
         return self.user.username
 
@@ -30,4 +28,17 @@ class Book(models.Model):
 
 class Task(models.Model):
     user = models.ForeignKey(MyUser, related_name='task')
-    url = models.CharField(max_length=200, null=True)
+    url = models.CharField(max_length=512, null=True)
+    name = models.CharField(max_length=128)
+    content = models.CharField(max_length=128, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class TaskFile(models.Model):
+    name = models.CharField(max_length=128, null=True)
+    task = models.ForeignKey(Task, related_name='file')
+
+    def __unicode__(self):
+        return self.name

@@ -130,7 +130,7 @@ def add_task(request):
             name=request.POST.get('name', ''),
             user=user.myuser,
             url=request.POST.get('url', ''),
-            content=request.POST.get('task', '')
+            content=request.POST.get('content', '')
         )
         new_task.save()
         state = 'success'

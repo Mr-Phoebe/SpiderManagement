@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^set_password/$', views.set_password, name='set_password'),
     url(r'^add_book/$', views.add_book, name='add_book'),
+    url(r'^add_task/$', views.add_task, name='add_task'),
     url(r'^view_book_list/$', views.view_book_list, name='view_book_list'),
+    url(r'^view_task_list/$', views.view_task_list, name='view_task_list'),
     url(r'^view_book/detail/$', views.detail, name='detail'),
 ]
