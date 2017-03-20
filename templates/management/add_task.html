@@ -11,6 +11,12 @@
                     <div class="well">
                         <h2 class="text-success text-center">添加成功</h2>
                     </div>
+                    <script>
+                        alert("6秒后跳转到任务列表")
+                        tobj = setTimeout(function () {
+                            location = '../view_task_list/'
+                        }, 3000)
+                    </script>
                 {% endif %}
                 <form method="POST" role="form" class="form-horizontal">
                     {% csrf_token %}
@@ -22,11 +28,16 @@
                             <input type="text" class="form-control" id="id_name" required name="name" autofocus>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="id_url" class="col-md-3 control-label">任务地址：</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" required name="url" id="id_url">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_url" class="col-md-3 control-label">抓取内容：</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" required name="content" id="id_content">
                         </div>
                     </div>
 

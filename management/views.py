@@ -121,6 +121,7 @@ def add_book(request):
     return render(request, 'management/add_book.html', content)
 
 
+@login_required
 def add_task(request):
     user = request.user
     state = None
@@ -129,6 +130,7 @@ def add_task(request):
             name=request.POST.get('name', ''),
             user=user.myuser,
             url=request.POST.get('url', ''),
+            content=request.POST.get('task', '')
         )
         new_task.save()
         state = 'success'
@@ -171,6 +173,25 @@ def view_book_list(request):
     }
     return render(request, 'management/view_book_list.html', content)
 
+
+@login_required
+def view_task_list(request):
+    user = request.user
+    task_list = Task.objects.filter(user=user.myuser)
+    paginator = Paginator(task_list, 5)
+    page = request.GET.get('page')
+    try:
+        task_list = paginator.page(page)
+    except PageNotAnInteger:
+        task_list = paginator.page(1)
+    except EmptyPage:
+        task_list = paginator.page(paginator.num_pages)
+    content = {
+        'user': user,
+        'active_menu': 'view_task',
+        'task_list': task_list,
+    }
+    return render(request, 'management/view_task_list.html', content)
 
 def detail(request):
     user = request.user if request.user.is_authenticated() else None
