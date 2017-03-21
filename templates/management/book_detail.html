@@ -1,0 +1,22 @@
+{% extends "management/base.html" %}
+{% load staticfiles %}
+{% block title %}查看任务{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="embed-responsive embed-responsive-16by9 col-md-5">
+                    <iframe class="embed-responsive-item" src="http://v3.bootcss.com/"></iframe>
+                </div>
+                <div class="col-md-6 col-md-offset-1">
+                    <h2 class="text-center">{{ book.name }}</h2>
+                    <br>
+                    <h3>作者：{{ book.author }}</h3>
+                    <h3>类别：{{ book.category }}</h3>
+                    <h3>出版日期：{{ book.publish_date|date:"Y-m-d" }}</h3>
+                    <h3>价格：{{ book.price|floatformat:2 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

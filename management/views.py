@@ -193,7 +193,8 @@ def view_task_list(request):
     }
     return render(request, 'management/view_task_list.html', content)
 
-def detail(request):
+
+def book_detail(request):
     user = request.user if request.user.is_authenticated() else None
     book_id = request.GET.get('id', '')
     if book_id == '':
@@ -207,5 +208,22 @@ def detail(request):
         'active_menu': 'view_book',
         'book': book,
     }
-    return render(request, 'management/detail.html', content)
+    return render(request, 'management/book_detail.html', content)
 
+
+@login_required
+def task_detail(request):
+    user = request.user
+    task_id = request.GET.get('id', '')
+    if task_id == '':
+        return HttpResponseRedirect(reverse('view_task_list'))
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        return HttpResponseRedirect(reverse('view_task_list'))
+    content = {
+        'user': user,
+        'active_menu': 'view_task',
+        'task': task,
+    }
+    return render(request, 'management/task_detail.html', content)

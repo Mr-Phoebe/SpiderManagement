@@ -33,7 +33,7 @@
                     {% for task in task_list %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td><a href="{% url 'detail' %}?id={{ task.id }}">{{ task.name }}</a></td>
+                            <td><a href="{% url 'task_detail' %}?id={{ task.id }}">{{ task.name }}</a></td>
                             <td>{{ task.url }}</td>
                             <td>{{ task.content }}</td>
                         </tr>

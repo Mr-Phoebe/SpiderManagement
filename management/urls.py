@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^add_task/$', views.add_task, name='add_task'),
     url(r'^view_book_list/$', views.view_book_list, name='view_book_list'),
     url(r'^view_task_list/$', views.view_task_list, name='view_task_list'),
-    url(r'^view_book/detail/$', views.detail, name='detail'),
+    url(r'^view_book/detail/$', views.book_detail, name='book_detail'),
+    url(r'^view_task/detail/$', views.task_detail, name='task_detail'),
 ]
