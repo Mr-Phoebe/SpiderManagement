@@ -6,6 +6,7 @@ from django.contrib import auth
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from management.models import MyUser, Book, Task, TaskFile
 from django.core.urlresolvers import reverse
+from crawler.get_bs4 import crawler
 
 
 def index(request):
