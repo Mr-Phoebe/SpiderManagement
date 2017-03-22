@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -227,3 +227,8 @@ def task_detail(request):
         'task': task,
     }
     return render(request, 'management/task_detail.html', content)
+
+
+@login_required
+def crawl(request):
+    return JsonResponse({'code': 0})
