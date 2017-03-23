@@ -31,14 +31,8 @@ class Task(models.Model):
     url = models.CharField(max_length=512, null=True)
     name = models.CharField(max_length=128)
     content = models.CharField(max_length=128, null=True)
+    hasfile = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
 
-
-class TaskFile(models.Model):
-    name = models.CharField(max_length=128, null=True)
-    task = models.ForeignKey(Task, related_name='file')
-
-    def __unicode__(self):
-        return self.name

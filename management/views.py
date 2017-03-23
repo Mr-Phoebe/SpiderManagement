@@ -243,6 +243,8 @@ def crawl(request):
                 task.hasfile = True
                 task.save()
                 return JsonResponse({'code': 0})
+            else:
+                return JsonResponse({'code': -1, 'msg': '没有抓取内容'})
         except Exception as e:
             return JsonResponse({'code': -1, 'msg': e})
     return JsonResponse({'code': 1})
