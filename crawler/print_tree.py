@@ -7,26 +7,11 @@
 import codecs
 import csv
 import os
+from crawler.tests import *
 
 
-def print_temp(fa, flag):
-    f1 = codecs.open('testha.txt', 'a+', encoding='utf-8')
-    f1.write(str(fa))
-    s = flag * 10
-    f1.write(s + "\n")
-    f1.close()
-
-
-def print_temp_line(line, num, dep):
-    f1 = codecs.open('test' + str(num) + '_' + str(dep) + '.txt', 'a+', encoding='utf-8')
-    for i in line:
-        f1.write(str(i) + "\n")
-    f1.write("\n**************\n")
-    f1.close()
-
-
-def csv_line(line, num, dep):
-    file_path = "data\\"
+def csv_line(line, num, dep, task_id):
+    file_path = "data\\" + task_id
     if not os.path.exists(file_path):
         os.mkdir(file_path)
     file_name = file_path + 'csv_' + str(num) + '_' + str(dep) + '.csv'
@@ -85,11 +70,11 @@ def print_children(ori, num, dep):
     pass
 
 
-def print_tree(now, num, dep):
+def print_tree(now, num, dep, task_id):
     for child in now.children:
         try:
             child.children  # 有儿子，则继续
             print_tree(child, num, dep + 1)
         except AttributeError as e:
-            print_brother(child, num, dep)
-            csv_brother(child, num, dep)
+            # print_brother(child, num, dep)
+            csv_brother(child, num, dep, task_id)

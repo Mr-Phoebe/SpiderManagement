@@ -9,6 +9,7 @@ import requests
 from crawler.dfs_tree import *
 from crawler.print_tree import *
 from crawler.get_unique import *
+from crawler.tests import *
 
 
 def get_bs4(url):
@@ -23,17 +24,6 @@ def get_all_fit(bs, now, num, task_id):
     li = filter(lambda x: x.attrs['class'] == now[1], bs.findAll(now[0], {'class': now[1]}))
     for item in li:
         print_tree(item, num, 0, task_id)
-
-
-def test(soup_packetpage):
-    dic_test = {"class": ["brand-info", "brand-value-change", "brand-col-8"]}
-
-    li = soup_packetpage.findAll("div", dic_test)
-    for item in li:
-        if 'class' in item.attrs \
-                and item.attrs['class'] == ["brand-info", "brand-value-change", "brand-col-8"]:
-            print(item)
-
 
 def crawler(id, url, string):
     # url = 'http://interbrand.com/best-brands/best-global-brands/2016/ranking/'
