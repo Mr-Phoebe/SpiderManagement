@@ -27,6 +27,7 @@
                         <th>任务名</th>
                         <th>任务地址</th>
                         <th>搜索内容</th>
+                        <th>抓取结果</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -36,6 +37,16 @@
                             <td><a href="{% url 'task_detail' %}?id={{ task.id }}">{{ task.name }}</a></td>
                             <td>{{ task.url }}</td>
                             <td>{{ task.content }}</td>
+                            {% if task.hasfile == 0 %}
+                                <td>暂无结果</td>
+                            {% else %}
+                                <td>
+                                    <button class="btn btn btn-warning btn-block" type="export"
+                                            onclick="begin_export()"><span
+                                            class="glyphicon glyphicon-floppy-save"></span> 导出
+                                    </button>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% empty %}
                         <tr>

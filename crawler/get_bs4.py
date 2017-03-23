@@ -34,6 +34,8 @@ def crawler(id, url, string):
 
     contain = []
     soup_packetpage = get_bs4(url)
+    if contain == []:
+        return False
     get_pos(soup_packetpage, contain, string)
 
     fa_list = keep_unique(map(get_parent, contain))
@@ -42,3 +44,4 @@ def crawler(id, url, string):
     for fa in fa_list:
         num += 1
         get_all_fit(soup_packetpage, fa, num, id)
+    return True

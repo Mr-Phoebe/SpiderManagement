@@ -8,26 +8,33 @@
         }
 
         begin_crawl = function () {
-            $(function () {
-                $.ajaxSetup({headers: {"X-CSRFToken": getCookie("csrftoken")}});
-            });
-            $.post('/view_task/crawl/', {
-                    task_id: "{{ task.id }}",
-                    task_url: "{{ task.url }}",
-                    task_content: "{{ task.content }}"
-        },
-                function (rep) {
-                    if (rep['code'] == 0) {
-                        alert('抓取成功');
-                    }
-                    else if (rep['code'] == 1) {
-                        alert('任务错误');
-                    }
-                    else {
-                        alert(rep['msg']);
-                    }
-                }, "json");
+            if ("{{ task.hasfile }}" == "True") {
+                alert('抓取成功');
+            }
+            else {
+                alert('2')
+                $(function () {
+                    $.ajaxSetup({headers: {"X-CSRFToken": getCookie("csrftoken")}});
+                });
+                $.post('/view_task/crawl/', {
+                        task_id: "{{ task.id }}",
+                        task_url: "{{ task.url }}",
+                        task_content: "{{ task.content }}"
+                    },
+                    function (rep) {
+                        if (rep['code'] == 0) {
+                            alert('抓取成功');
+                        }
+                        else if (rep['code'] == 1) {
+                            alert('任务错误');
+                        }
+                        else {
+                            alert(rep['msg']);
+                        }
+                    }, "json");
+            }
         }
+                
 
         function begin_export() {
             alert('1');

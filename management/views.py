@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from management.models import MyUser, Book, Task, TaskFile
+from management.models import MyUser, Book, Task
 from django.core.urlresolvers import reverse
 from crawler.get_bs4 import crawler
 
@@ -131,7 +131,8 @@ def add_task(request):
             name=request.POST.get('name', ''),
             user=user.myuser,
             url=request.POST.get('url', ''),
-            content=request.POST.get('content', '')
+            content=request.POST.get('content', ''),
+            hasfile=False
         )
         new_task.save()
         state = 'success'
@@ -237,8 +238,11 @@ def crawl(request):
         url = request.POST.get('task_url', ''),
         content = request.POST.get('task_content', '')
         try:
-            crawler(id=id[0], url=url[0], string=content)
-            return JsonResponse({'code': 0})
+            if crawler(id=id[0], url=url[0], string=content):
+                task = Task.objects.get(id=id)
+                task.hasfile = True
+                task.save()
+                return JsonResponse({'code': 0})
         except Exception as e:
             return JsonResponse({'code': -1, 'msg': e})
     return JsonResponse({'code': 1})
