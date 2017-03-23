@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^view_task_list/$', views.view_task_list, name='view_task_list'),
     url(r'^view_book/detail/$', views.book_detail, name='book_detail'),
     url(r'^view_task/detail/$', views.task_detail, name='task_detail'),
+    url(r'^view_task/crawl/$', views.crawl, name='crawl'),
 ]

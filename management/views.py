@@ -236,7 +236,5 @@ def crawl(request):
         id = request.POST.get('task_id', ''),
         url = request.POST.get('task_url', ''),
         content = request.POST.get('task_content', '')
-        print(type(id))
-        print(type(url))
-        print(type(content))
+        crawler(id=id, url=url, content=content)
     return JsonResponse({'code': 0})

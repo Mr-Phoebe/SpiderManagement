@@ -19,11 +19,10 @@ def get_bs4(url):
     return BeautifulSoup(r.text, "html.parser")
 
 
-def get_all_fit(bs, now, num):
+def get_all_fit(bs, now, num, task_id):
     li = filter(lambda x: x.attrs['class'] == now[1], bs.findAll(now[0], {'class': now[1]}))
     for item in li:
-        print_temp(item, '*')
-        print_tree(item, num, 0)
+        print_tree(item, num, 0, task_id)
 
 
 def test(soup_packetpage):
@@ -36,11 +35,14 @@ def test(soup_packetpage):
             print(item)
 
 
-def crawler(url, string):
+def crawler(id, url, string):
     # url = 'http://interbrand.com/best-brands/best-global-brands/2016/ranking/'
     # string = '178,119 $m'
-    contain = []
+    file_path = "data\\"
+    if not os.path.exists(file_path):
+        os.mkdir(file_path)
 
+    contain = []
     soup_packetpage = get_bs4(url)
     get_pos(soup_packetpage, contain, string)
 
@@ -49,4 +51,4 @@ def crawler(url, string):
     num = 0
     for fa in fa_list:
         num += 1
-        get_all_fit(soup_packetpage, fa, num)
+        get_all_fit(soup_packetpage, fa, num, id)
