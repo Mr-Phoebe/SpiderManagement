@@ -232,4 +232,11 @@ def task_detail(request):
 
 @login_required
 def crawl(request):
+    if request.method == 'POST':
+        id = request.POST.get('task_id', ''),
+        url = request.POST.get('task_url', ''),
+        content = request.POST.get('task_content', '')
+        print(type(id))
+        print(type(url))
+        print(type(content))
     return JsonResponse({'code': 0})
