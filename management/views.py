@@ -236,5 +236,9 @@ def crawl(request):
         id = request.POST.get('task_id', ''),
         url = request.POST.get('task_url', ''),
         content = request.POST.get('task_content', '')
-        crawler(id=id, url=url, content=content)
-    return JsonResponse({'code': 0})
+        try:
+            crawler(id=id[0], url=url[0], string=content)
+            return JsonResponse({'code': 0})
+        except Exception as e:
+            return JsonResponse({'code': -1, 'msg': e})
+    return JsonResponse({'code': 1})

@@ -17,7 +17,15 @@
                     task_content: "{{ task.content }}"
         },
                 function (rep) {
-                    alert('开始抓取');
+                    if (rep['code'] == 0) {
+                        alert('抓取成功');
+                    }
+                    else if (rep['code'] == 1) {
+                        alert('任务错误');
+                    }
+                    else {
+                        alert(rep['msg']);
+                    }
                 }, "json");
         }
 

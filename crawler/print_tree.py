@@ -4,7 +4,6 @@
 # @Last Modified by:   HaonanWu
 # @Last Modified time: 2017-03-15 11:06:10
 
-import codecs
 import csv
 import os
 from crawler.tests import *
@@ -14,13 +13,13 @@ def csv_line(line, num, dep, task_id):
     file_path = "data\\" + task_id
     if not os.path.exists(file_path):
         os.mkdir(file_path)
-    file_name = file_path + 'csv_' + str(num) + '_' + str(dep) + '.csv'
+    file_name = file_path + '\\csv_' + str(num) + '_' + str(dep) + '.csv'
     csvfile = open(file_name, 'a+', newline='')
     writer = csv.writer(csvfile, dialect='excel')
     writer.writerow(line)
 
 
-def csv_brother(ori, num, dep):
+def csv_brother(ori, num, dep, task_id):
     cur = ori
     line = []
     while cur:
@@ -33,7 +32,7 @@ def csv_brother(ori, num, dep):
         if tmp != '\n':
             line.append(tmp.replace('\n', ''))
     if line != []:
-        csv_line(line, num, dep)
+        csv_line(line, num, dep, task_id)
 
 
 def print_brother(ori, num, dep):
@@ -74,7 +73,7 @@ def print_tree(now, num, dep, task_id):
     for child in now.children:
         try:
             child.children  # 有儿子，则继续
-            print_tree(child, num, dep + 1)
+            print_tree(child, num, dep + 1, task_id)
         except AttributeError as e:
             # print_brother(child, num, dep)
             csv_brother(child, num, dep, task_id)
