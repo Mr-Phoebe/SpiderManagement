@@ -38,10 +38,13 @@
                             <td>{{ task.url }}</td>
                             <td>{{ task.content }}</td>
                             {% if task.hasfile == 0 %}
-                                <td>暂无结果</td>
+                                <td>
+                                    <button class="btn btn btn-warning btn-block" disabled=""> 暂无内容
+                                    </button>
+                                </td>
                             {% else %}
                                 <td>
-                                    <button class="btn btn btn-warning btn-block" type="export"
+                                    <button class="btn btn btn-success btn-block" type="export"
                                             onclick="begin_export()"><span
                                             class="glyphicon glyphicon-floppy-save"></span> 导出
                                     </button>
