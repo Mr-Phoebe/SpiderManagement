@@ -239,7 +239,7 @@ def crawl(request):
         content = request.POST.get('task_content', '')
         try:
             if crawler(id=id[0], url=url[0], string=content):
-                task = Task.objects.get(id=id)
+                task = Task.objects.get(id=id[0])
                 task.hasfile = True
                 task.save()
                 return JsonResponse({'code': 0})

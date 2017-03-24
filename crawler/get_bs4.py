@@ -5,7 +5,7 @@
 # @Last Modified time: 2017-03-18 10:31:24
 
 from bs4 import BeautifulSoup
-import requests
+import requests, zipfile, os
 from crawler.dfs_tree import *
 from crawler.print_tree import *
 from crawler.get_unique import *
@@ -28,15 +28,15 @@ def get_all_fit(bs, now, num, task_id):
 def crawler(id, url, string):
     # url = 'http://interbrand.com/best-brands/best-global-brands/2016/ranking/'
     # string = '178,119 $m'
-    file_path = "data\\"
+    file_path = os.path.join(BASE_DIR, "data\\")
     if not os.path.exists(file_path):
         os.mkdir(file_path)
 
     contain = []
     soup_packetpage = get_bs4(url)
+    get_pos(soup_packetpage, contain, string)
     if contain == []:
         return False
-    get_pos(soup_packetpage, contain, string)
 
     fa_list = keep_unique(map(get_parent, contain))
 
@@ -44,4 +44,11 @@ def crawler(id, url, string):
     for fa in fa_list:
         num += 1
         get_all_fit(soup_packetpage, fa, num, id)
+
+    z = zipfile.ZipFile(file_path + 'zip' + str(id) + '.zip', 'w')
+    if os.path.isdir(file_path + str(id)):
+        for d in os.listdir(file_path + str(id)):
+            z.write(file_path + str(id) + os.sep + d, d)
+        z.close()
+
     return True
