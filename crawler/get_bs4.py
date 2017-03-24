@@ -28,9 +28,11 @@ def get_all_fit(bs, now, num, task_id):
 def crawler(id, url, string):
     # url = 'http://interbrand.com/best-brands/best-global-brands/2016/ranking/'
     # string = '178,119 $m'
-    file_path = os.path.join(BASE_DIR, "data\\")
+    file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
     if not os.path.exists(file_path):
         os.mkdir(file_path)
+
+    print(url)
 
     contain = []
     soup_packetpage = get_bs4(url)

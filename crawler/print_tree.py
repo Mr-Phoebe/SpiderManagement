@@ -7,13 +7,14 @@
 import csv
 import os
 from crawler.tests import *
+from SP.settings import STATIC_ROOT
 
 
 def csv_line(line, num, dep, task_id):
-    file_path = "data\\" + task_id
+    file_path = os.path.join(STATIC_ROOT, "data/" + task_id).replace('\\', '/')
     if not os.path.exists(file_path):
         os.mkdir(file_path)
-    file_name = file_path + '\\csv_' + str(num) + '_' + str(dep) + '.csv'
+    file_name = file_path + '/csv_' + str(num) + '_' + str(dep) + '.csv'
     csvfile = open(file_name, 'a+', newline='')
     writer = csv.writer(csvfile, dialect='excel')
     writer.writerow(line)

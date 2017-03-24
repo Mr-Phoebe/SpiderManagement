@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, StreamingHttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -234,12 +234,14 @@ def task_detail(request):
 @login_required
 def crawl(request):
     if request.method == 'POST':
-        id = request.POST.get('task_id', ''),
-        url = request.POST.get('task_url', ''),
+        id = request.POST.get('task_id', '')
+        url = request.POST.get('task_url', '')
         content = request.POST.get('task_content', '')
+        print(id)
+        print(url)
         try:
-            if crawler(id=id[0], url=url[0], string=content):
-                task = Task.objects.get(id=id[0])
+            if crawler(id=id, url=url, string=content):
+                task = Task.objects.get(id=id)
                 task.hasfile = True
                 task.save()
                 return JsonResponse({'code': 0})
@@ -248,3 +250,4 @@ def crawl(request):
         except Exception as e:
             return JsonResponse({'code': -1, 'msg': e})
     return JsonResponse({'code': 1})
+

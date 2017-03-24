@@ -44,10 +44,12 @@
                                 </td>
                             {% else %}
                                 <td>
-                                    <button class="btn btn btn-success btn-block" type="export"
-                                            onclick="begin_export()"><span
-                                            class="glyphicon glyphicon-floppy-save"></span> 导出
-                                    </button>
+                                    <a href="/static/data/zip{{ task.id }}.zip">
+                                        <button class="btn btn btn-success btn-block" type="export"><span
+                                                class="glyphicon glyphicon-floppy-save"></span> 导出
+                                        </button>
+                                    </a>
+
                                 </td>
                             {% endif %}
                         </tr>
