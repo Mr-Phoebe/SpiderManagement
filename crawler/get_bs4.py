@@ -5,7 +5,7 @@
 # @Last Modified time: 2017-03-18 10:31:24
 
 from bs4 import BeautifulSoup
-import requests, zipfile, os
+import requests
 from crawler.dfs_tree import *
 from crawler.print_tree import *
 from crawler.get_unique import *
@@ -32,11 +32,10 @@ def crawler(id, url, string):
     if not os.path.exists(file_path):
         os.mkdir(file_path)
 
-    print(url)
-
     contain = []
     soup_packetpage = get_bs4(url)
     get_pos(soup_packetpage, contain, string)
+
     if contain == []:
         return False
 
@@ -47,10 +46,6 @@ def crawler(id, url, string):
         num += 1
         get_all_fit(soup_packetpage, fa, num, id)
 
-    z = zipfile.ZipFile(file_path + 'zip' + str(id) + '.zip', 'w')
-    if os.path.isdir(file_path + str(id)):
-        for d in os.listdir(file_path + str(id)):
-            z.write(file_path + str(id) + os.sep + d, d)
-        z.close()
+    make_zip(file_path, id)
 
     return True
