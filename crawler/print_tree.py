@@ -2,7 +2,7 @@
 # @Author: HaonanWu
 # @Date:   2017-03-15 10:22:40
 # @Last Modified by:   HaonanWu
-# @Last Modified time: 2017-03-15 11:06:10
+# @Last Modified time: 2017-03-25 12:33:05
 
 import csv
 import os
@@ -75,6 +75,6 @@ def print_tree(now, num, dep, task_id):
         try:
             child.children  # 有儿子，则继续
             print_tree(child, num, dep + 1, task_id)
-        except AttributeError as e:
+        except Exception as e:
             # print_brother(child, num, dep)
             csv_brother(child, num, dep, task_id)
