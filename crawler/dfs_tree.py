@@ -4,6 +4,7 @@
 # @Last Modified by:   HaonanWu
 # @Last Modified time: 2017-03-15 11:06:01
 
+from crawler.Node import *
 
 def check_substring(stra, strb):
     lista = list(stra)
@@ -26,13 +27,8 @@ def get_pos(now, contain, string):
         try:
             tmp = "" + now.string
             if check_substring(tmp.strip(), string):
-                contain.append(now)
+                contain.append(Node(now))
         except:
             pass
         return
 
-
-def get_parent(now):
-    for parent in now.parents:
-        if parent and 'class' in parent.attrs:
-            return (parent.name, parent.attrs['class'])

@@ -10,6 +10,7 @@
             if ("{{ task.hasfile }}" == "True") {
                 alert('抓取成功');
             } else {
+                var CheckboxObj = document.getElementById("clear_crawler")
                 $(function () {
                     $.ajaxSetup({
                         headers: {
@@ -20,7 +21,8 @@
                 $.post('/view_task/crawl/', {
                         task_id: "{{ task.id }}",
                         task_url: "{{ task.url }}",
-                        task_content: "{{ task.content }}"
+                        task_content: "{{ task.content }}",
+                        task_method: CheckboxObj.checked
                     },
                     function (rep) {
                         if (rep['code'] == 0) {
@@ -55,6 +57,13 @@
                 <span class="input-group-addon" id="sizing-addon1"><span
                                 class="glyphicon glyphicon-th-large">   </span></span>
                     <input class="form-control" type="text" placeholder="{{ task.content }}" readonly>
+                </div>
+                <br>
+                <div class="input-group col-md-12">
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="clear_crawler" checked="{{ task.method }}">
+                    </span>
+                    <input type="text" class="form-control" placeholder="是否简洁抓取" readonly>
                 </div>
                 <br>
                 <div class="form-group">

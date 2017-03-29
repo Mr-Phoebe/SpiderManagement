@@ -28,7 +28,8 @@ def get_all_fit(bs, now, num, task_id):
     for item in li:
         print_tree(item, num, 0, task_id)
 
-def crawler(id, url, string):
+
+def crawler(id, url, string, method):
     # url = 'http://interbrand.com/best-brands/best-global-brands/2016/ranking/'
     # string = '178,119 $m'
     file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
@@ -52,6 +53,7 @@ def crawler(id, url, string):
         num += 1
         get_all_fit(soup_packetpage, fa, num, id)
 
+    # need to change it , make zip while clicking download
     make_zip(file_path, id)
 
     return True

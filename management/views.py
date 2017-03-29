@@ -166,10 +166,12 @@ def crawl(request):
         id = request.POST.get('task_id', '')
         url = request.POST.get('task_url', '')
         content = request.POST.get('task_content', '')
+        method = request.POST.get('task_method', '')
         try:
-            if crawler(id=id, url=url, string=content):
+            if crawler(id=id, url=url, string=content, method=method):
                 task = Task.objects.get(id=id)
                 task.hasfile = True
+                task.method = method
                 task.save()
                 return JsonResponse({'code': 0})
             else:
