@@ -12,8 +12,12 @@ def keep_unique(li):
     return map(json.loads, list(label_set))
 
 def make_zip(file_path, id):
-    z = zipfile.ZipFile(file_path + 'zip' + str(id) + '.zip', 'w')
+    zip_name = file_path + 'zip' + str(id) + '.zip'
+    if os.path.exists(zip_name):
+        return 'zip' + str(id) + '.zip'
+    z = zipfile.ZipFile(zip_name, 'w')
     if os.path.isdir(file_path + str(id)):
         for d in os.listdir(file_path + str(id)):
             z.write(file_path + str(id) + os.sep + d, d)
         z.close()
+    return 'zip' + str(id) + '.zip'

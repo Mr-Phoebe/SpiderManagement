@@ -32,6 +32,7 @@ class Task(models.Model):
     name = models.CharField(max_length=128)
     content = models.CharField(max_length=128, null=True)
     hasfile = models.BooleanField(default=False)
+    method = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name

@@ -43,15 +43,23 @@ def crawler(id, url, string, method):
     if anchor == []:
         return False
 
+
+    # if method == true: #简洁抓取，则去重
     fa_list = []
     for node in anchor:
-        fa_list.append(node.get_parent())
+        fa_list.append(node.get_father())
     fa_list = keep_unique(fa_list)
 
     num = 0
     for fa in fa_list:
         num += 1
         get_all_fit(soup_packetpage, fa, num, id)
+    ############ 简洁抓取
+    # else:               #非简洁抓取
+    # 先得到对于每一个fa_list，得到它关于findAll的所有元素的LCA，找出最多的那个LCA，复杂度为O(N^2)
+    # 解析LCA，分record（！！重点！！）
+    # 将record中的内容按照标签路径（将路径变成json，然后进行hash）进行分类
+
 
     # need to change it , make zip while clicking download
     make_zip(file_path, id)

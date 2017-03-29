@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from management.models import MyUser, Book, Task
+from management.models import MyUser, Task
 from django.core.urlresolvers import reverse
 from crawler.get_bs4 import crawler
-
+from crawler.get_function import *
+from SP.settings import STATIC_ROOT
 
 def index(request):
     user = request.user if request.user.is_authenticated() else None
@@ -180,3 +181,11 @@ def crawl(request):
             return JsonResponse({'code': -1, 'msg': e})
     return JsonResponse({'code': 1})
 
+
+def download(request):
+    file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
+    if request.method == 'POST':
+        id = request.POST.get('task_id', '')
+        zip_name = make_zip(file_path, id)
+        return JsonResponse({'code': 0, 'url': '/static/data/' + zip_name})
+    return JsonResponse({'code': 1})
