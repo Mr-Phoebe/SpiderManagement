@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 from crawler.dfs_tree import *
 from crawler.print_tree import *
-from crawler.get_unique import *
+from crawler.get_function import *
 from crawler.tests import *
 
 
@@ -17,7 +17,10 @@ def get_bs4(url):
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
     headers = {'User-Agent': user_agent}
     r = requests.get(url, headers=headers)
-    return BeautifulSoup(r.text, "html.parser")
+    soup = BeautifulSoup(r.text, "html.parser")
+    [script.extract() for script in soup.findAll('script')]
+    [style.extract() for style in soup.findAll('style')]
+    return soup
 
 
 def get_all_fit(bs, now, num, task_id):
@@ -32,14 +35,17 @@ def crawler(id, url, string):
     if not os.path.exists(file_path):
         os.mkdir(file_path)
 
-    contain = []
+    anchor = []
     soup_packetpage = get_bs4(url)
-    get_pos(soup_packetpage, contain, string)
+    get_pos(soup_packetpage, anchor, string)
 
-    if contain == []:
+    if anchor == []:
         return False
 
-    fa_list = keep_unique(map(get_parent, contain))
+    fa_list = []
+    for node in anchor:
+        fa_list.append(node.get_parent())
+    fa_list = keep_unique(fa_list)
 
     num = 0
     for fa in fa_list:
