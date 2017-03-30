@@ -59,7 +59,10 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return HttpResponseRedirect(reverse('homepage'))
+            if not user.is_superuser:
+                return HttpResponseRedirect(reverse('homepage'))
+            else
+                return HttpResponseRedirect(reverse('admin')):
         else:
             state = 'not_exist_or_password_error'
     content = {
