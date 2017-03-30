@@ -61,8 +61,8 @@ def login(request):
             auth.login(request, user)
             if not user.is_superuser:
                 return HttpResponseRedirect(reverse('homepage'))
-            else
-                return HttpResponseRedirect(reverse('admin')):
+            else:
+                return HttpResponseRedirect(('/admin'))
         else:
             state = 'not_exist_or_password_error'
     content = {
