@@ -25,3 +25,8 @@ class Task(models.Model):
 
     class META:
         ordering = ['name']
+
+
+class TaskFile(models.Model):
+    path = models.CharField(max_length=512)
+    task = models.ForeignKey(Task, related_name='file')
