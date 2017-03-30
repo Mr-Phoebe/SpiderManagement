@@ -1,8 +1,10 @@
 from django.conf.urls import url
 from management import views
+from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', views.index, name='homepage'),
+    url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
