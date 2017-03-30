@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from management.models import MyUser, Task
+from management.models import MyUser, Task, TaskFile
 from django.core.urlresolvers import reverse
 from crawler.get_bs4 import crawler
 from crawler.get_function import *
@@ -192,3 +192,17 @@ def download(request):
         zip_name = make_zip(file_path, id)
         return JsonResponse({'code': 0, 'url': '/static/data/' + zip_name})
     return JsonResponse({'code': 1})
+
+
+def view_task_data(request):
+    if request.method == 'POST':
+        id = request.POST.get('task_id', '')
+        index = request.POST.get('data_id', '')
+        task = Task.objects.get(id=id)
+        task_list = TaskFile.objects.filter(task=task)
+        content = {
+            'task': task,
+            'active_menu': 'view_data',
+            'data_detail': json.dumps(task_list[index]),
+        }
+    return render(request, 'management/view_task_data.html', content)
