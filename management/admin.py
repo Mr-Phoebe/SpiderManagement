@@ -9,10 +9,9 @@ class MyUserInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = (MyUserInline,)
 
-
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('name', 'user')  # 把字段信息全部显示出来
-    search_fields = ('name', 'user')  # 添加search bar，在指定的字段中search
+    list_display = ('name', 'user')
+    search_fields = ('name', 'user')
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
