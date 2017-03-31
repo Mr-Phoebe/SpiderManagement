@@ -28,5 +28,5 @@ class Task(models.Model):
 
 
 class TaskFile(models.Model):
-    path = models.CharField(max_length=512)
+    name = models.CharField(max_length=512)
     task = models.ForeignKey(Task, related_name='file')
