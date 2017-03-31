@@ -6,10 +6,16 @@ class MyUserInline(admin.StackedInline):
     model = MyUser
     can_delete = False
 
+
+class TaskFileInline(admin.StackedInline):
+    model = TaskFile
+    can_delete = False
+
 class UserAdmin(BaseUserAdmin):
     inlines = (MyUserInline,)
 
 class TaskAdmin(admin.ModelAdmin):
+    inlines = (TaskFileInline,)
     list_display = ('name', 'user')
     search_fields = ('name', 'user')
 
