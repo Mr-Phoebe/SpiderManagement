@@ -23,7 +23,7 @@ def get_pos(now, contain, string):
     try:
         for child in now.children:
             get_pos(child, contain, string)
-    except AttributeError as e:
+    except Exception as e:
         try:
             tmp = "" + now.string
             if check_substring(tmp.strip(), string):

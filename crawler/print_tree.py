@@ -10,17 +10,18 @@ from crawler.tests import *
 from SP.settings import STATIC_ROOT
 
 
-def csv_line(line, num, dep, task_id):
+def csv_line(line, num, dep, task_id, file_list):
     file_path = os.path.join(STATIC_ROOT, "data/" + task_id).replace('\\', '/')
     if not os.path.exists(file_path):
         os.mkdir(file_path)
     file_name = file_path + '/csv_' + str(num) + '_' + str(dep) + '.csv'
+    file_list.append('csv_' + str(num) + '_' + str(dep) + '.csv')
     csvfile = open(file_name, 'a+', newline='')
     writer = csv.writer(csvfile, dialect='excel')
     writer.writerow(line)
 
 
-def csv_brother(ori, num, dep, task_id):
+def csv_brother(ori, num, dep, task_id, file_list):
     cur = ori
     line = []
     while cur:
@@ -29,11 +30,11 @@ def csv_brother(ori, num, dep, task_id):
             cur = cur.next_sibling
         except:
             break
-        tmp.strip()
-        if tmp != '\n':
+        tmp = tmp.strip()
+        if tmp != '\n' and tmp != '':
             line.append(tmp.replace('\n', ''))
     if line != []:
-        csv_line(line, num, dep, task_id)
+        csv_line(line, num, dep, task_id, file_list)
 
 
 def print_brother(ori, num, dep):
@@ -50,7 +51,6 @@ def print_brother(ori, num, dep):
             line.append(tmp.replace('\n', ''))
     if line != []:
         print_temp_line(line, num, dep)
-
 
 def print_children(ori, num, dep):
     cur = ori
@@ -70,11 +70,11 @@ def print_children(ori, num, dep):
     pass
 
 
-def print_tree(now, num, dep, task_id):
+def print_tree(now, num, dep, task_id, file_list):
     for child in now.children:
         try:
             child.children  # 有儿子，则继续
-            print_tree(child, num, dep + 1, task_id)
+            print_tree(child, num, dep + 1, task_id, file_list)
         except Exception as e:
             # print_brother(child, num, dep)
-            csv_brother(child, num, dep, task_id)
+            csv_brother(child, num, dep, task_id, file_list)

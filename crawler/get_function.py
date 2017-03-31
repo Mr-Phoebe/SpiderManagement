@@ -8,8 +8,8 @@ import json
 import zipfile, os
 
 def keep_unique(li):
-    label_set = set(map(json.dumps, li))
-    return map(json.loads, list(label_set))
+    list_set = set(map(json.dumps, li))
+    return map(json.loads, list(list_set))
 
 def make_zip(file_path, id):
     zip_name = file_path + 'zip' + str(id) + '.zip'

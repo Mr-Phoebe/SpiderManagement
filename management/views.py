@@ -172,11 +172,19 @@ def crawl(request):
         content = request.POST.get('task_content', '')
         method = request.POST.get('task_method', '')
         try:
-            if crawler(id=id, url=url, string=content, method=method):
+            file_list = crawler(id=id, url=url, string=content, method=method)
+            if file_list != []:
                 task = Task.objects.get(id=id)
                 task.hasfile = True
                 task.method = method
                 task.save()
+                for file_name in file_list:
+                    print(file_name)
+                    new_file = TaskFile(
+                        name=file_name,
+                        task=task
+                    )
+                    new_file.save()
                 return JsonResponse({'code': 0})
             else:
                 return JsonResponse({'code': -1, 'msg': '没有抓取内容'})

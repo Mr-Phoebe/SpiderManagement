@@ -11,7 +11,9 @@ class Node:
                 self.father = (parent.name, parent.attrs['class'])
 
     def get_father(self):
-        return self.father
+        for parent in self.bs4node.parents:
+            if parent and 'class' in parent.attrs:
+                return (parent.name, parent.attrs['class'])
 
     def get_path(self):
         return self.path
