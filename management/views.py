@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from crawler.get_bs4 import crawler
 from crawler.get_function import *
 from SP.settings import STATIC_ROOT
+import csv
 
 def index(request):
     user = request.user if request.user.is_authenticated() else None
@@ -207,10 +208,21 @@ def view_task_data(request):
         id = request.POST.get('task_id', '')
         index = request.POST.get('data_id', '')
         task = Task.objects.get(id=id)
-        task_list = TaskFile.objects.filter(task=task)
+        file_list = TaskFile.objects.filter(task=task)
+        data_detail = []
+        file_name = file_list[int(index)].name
+        '''
+        file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
+        csvfile = open(file_path + 'id' + file_name, 'r')
+        reader = csv.reader(csvfile)
+        for line in reader:
+            data_detail.append(line)
+        '''
+
         content = {
             'task': task,
+            'data_list': file_list,
             'active_menu': 'view_data',
-            'data_detail': json.dumps(task_list[index]),
+            'data_detail': json.dumps(data_detail),
         }
-    return render(request, 'management/view_task_data.html', content)
+        return render(request, 'management/view_task_data.html', content)

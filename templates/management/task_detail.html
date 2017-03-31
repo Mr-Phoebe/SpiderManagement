@@ -56,6 +56,26 @@
                     }
                 }, "json");
         }
+        show_data = function () {
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")
+                    }
+                });
+            });
+            $.post('/view_task/data/', {
+                    task_id: "{{ task.id }}",
+                    data_id: 0,
+                },
+                function (rep) {
+                    if (rep['code'] == 0) {
+                        window.location.href = rep['url']
+                    } else {
+                        alert('任务出错')
+                    }
+                }, "json");
+        }
     </script>
     <div class="container">
         <div class="row">
@@ -108,7 +128,7 @@
                             <button class="btn btn btn-warning btn-block" disabled=""> 暂无内容
                             </button>
                         {% else %}
-                            <button class="btn btn btn-info btn-block" type="export"><span
+                            <button class="btn btn btn-info btn-block" type="export" onclick="show_data()"><span
                                     class="glyphicon glyphicon glyphicon-th-list"></span> 查看数据
                             </button>
                         {% endif %}

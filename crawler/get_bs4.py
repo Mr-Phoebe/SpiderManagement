@@ -63,6 +63,6 @@ def crawler(id, url, string, method):
 
 
     # need to change it , make zip while clicking download
-    make_zip(file_path, id)
+    # make_zip(file_path, id)
 
     return keep_unique(file_list)
