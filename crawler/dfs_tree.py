@@ -2,9 +2,10 @@
 # @Author: HaonanWu
 # @Date:   2017-03-15 10:22:04
 # @Last Modified by:   HaonanWu
-# @Last Modified time: 2017-03-15 11:06:01
+# @Last Modified time: 2017-04-01 22:46:29
 
 from crawler.Node import *
+from crawler.print_tree import *
 
 def check_substring(stra, strb):
     lista = list(stra)
@@ -19,10 +20,11 @@ def check_substring(stra, strb):
     return False
 
 
-def get_pos(now, contain, string):
+# get the anchors position
+def get_anchor_pos(now, contain, string):
     try:
         for child in now.children:
-            get_pos(child, contain, string)
+            get_anchor_pos(child, contain, string)
     except Exception as e:
         try:
             tmp = "" + now.string
@@ -33,17 +35,30 @@ def get_pos(now, contain, string):
         return
 
 
-'''
-def get_pos(now, contain, string):
+# get all the Node with the same CSS
+def get_all_fit_css(bs, now, num, task_id, file_list):
+    li = filter(lambda x: x.attrs['class'] == now[1], bs.findAll(now[0], {'class': now[1]}))
+    for item in li:
+        print_tree(item, num, 0, task_id, file_list)
+
+
+# get all the Node with the same Path and CSS
+def get_pos_path(now, contain, path, node):
+    if path == node.path and now.attrs['class'] == node.get_parent()[1]:
+        contain.append(now)
+        return
     try:
         for child in now.children:
-            get_pos(child, contain, string)
-    except AttributeError as e:
-        try:
-            tmp = "" + now.string
-            if check_substring(tmp.strip(), string):
-                contain.append(Node(now))
-        except:
-            pass
-        return
-'''
+            path.append(child.name)
+            get_pos_path(child, contain, path, node)
+            path.pop()
+    except:
+        pass
+    return
+
+
+# get all the Node with the same Path and CSS
+def get_all_fit_path(bs, node, num, task_id, file_list):
+    li = []
+    get_pos_path(bs, li, [], node)
+    cnt = 0
