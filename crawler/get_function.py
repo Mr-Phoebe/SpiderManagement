@@ -4,8 +4,7 @@
 # @Last Modified by:   HaonanWu
 # @Last Modified time: 2017-03-18 10:34:44
 
-import json
-import zipfile, os
+import json, zipfile, os, shutil
 
 def keep_unique(li):
     list_set = set(map(json.dumps, li))

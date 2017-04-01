@@ -7,10 +7,11 @@
         }
 
         begin_crawl = function () {
-            if ("{{ task.hasfile }}" == "True") {
+            var CheckboxObj = document.getElementById("clear_crawler")
+            if ("{{ task.hasfile }}" == "True" && Boolean("{{ task.method }}") == CheckboxObj.checked) {
                 alert('抓取成功');
             } else {
-                var CheckboxObj = document.getElementById("clear_crawler")
+
                 $(function () {
                     $.ajaxSetup({
                         headers: {
