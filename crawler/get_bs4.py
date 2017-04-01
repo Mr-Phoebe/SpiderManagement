@@ -26,7 +26,6 @@ def get_bs4(url):
 def get_all_fit(bs, now, num, task_id, file_list):
     li = filter(lambda x: x.attrs['class'] == now[1], bs.findAll(now[0], {'class': now[1]}))
     for item in li:
-        print(item)
         print_tree(item, num, 0, task_id, file_list)
 
 
@@ -36,6 +35,8 @@ def crawler(id, url, string, method):
     file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
     if not os.path.exists(file_path):
         os.mkdir(file_path)
+    shutil.rmtree(file_path + id)
+    print(method)
     string = string.strip()
 
     anchor = []
