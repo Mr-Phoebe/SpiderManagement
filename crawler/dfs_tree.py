@@ -92,8 +92,6 @@ def get_all_fit_path(bs, node, num, task_id, file_list, method):
         cnt_max = -1
         node_max = None
         for item in li:
-            if cnt > 4:
-                break
             lcanode = LCA(item, node)
             nodejson = json.dumps((lcanode.get_path(), lcanode.get_father()))
             if nodejson in cnt_node:
@@ -103,8 +101,6 @@ def get_all_fit_path(bs, node, num, task_id, file_list, method):
             if cnt_node[nodejson] > cnt_max:
                 cnt_max = cnt_node[nodejson]
                 node_max = lcanode
-            cnt += 1
-        print(cnt)
         csv_split(node_max.bs4node.get_text(), 1, 0, task_id, file_list)
         # 法1：这样输出一种
         # 法2：传入一个bs4node，然后按照(path, father)来分类
