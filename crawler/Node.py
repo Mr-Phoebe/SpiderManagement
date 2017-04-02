@@ -5,15 +5,15 @@ class Node:
         self.father = (None, None)
         for parent in self.bs4node.parents:
             self.path.append(parent.name)
-            self.path.reverse()
+        self.path.pop()
+        self.path.reverse()
         for parent in self.bs4node.parents:
             if parent and 'class' in parent.attrs:
                 self.father = (parent.name, parent.attrs['class'])
+                break
 
     def get_father(self):
-        for parent in self.bs4node.parents:
-            if parent and 'class' in parent.attrs:
-                return (parent.name, parent.attrs['class'])
+        return self.father
 
     def get_path(self):
         return self.path

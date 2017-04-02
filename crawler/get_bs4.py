@@ -30,26 +30,28 @@ def crawler(id, url, string, method):
     file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
     if not os.path.exists(file_path):
         os.mkdir(file_path)
-    shutil.rmtree(file_path + id)
+    if os.path.exists(file_path + id):
+        shutil.rmtree(file_path + id)
     string = string.strip()
 
     anchor = []
     soup_packetpage = get_bs4(url)
     get_anchor_pos(soup_packetpage, anchor, string)
+
     if anchor == []:
         return []
 
-    # if method == true: #简洁抓取，则去重
+    # if method == True: #简洁抓取，则去重
     fa_list = []
     for node in anchor:
         fa_list.append(node.get_father())
-    fa_list = keep_unique(fa_list)
+    anchor = keep_unique(fa_list, anchor)
 
     file_list = []
     num = 0
-    for fa in fa_list:
+    for node in anchor:
         num += 1
-        get_all_fit_css(soup_packetpage, fa, num, id, file_list)
+        get_all_fit_path(soup_packetpage, node, num, id, file_list, method)
     ############ 简洁抓取
     # else:               #非简洁抓取
     # 先得到对于每一个fa_list，得到它关于findAll的所有元素的LCA，找出最多的那个LCA，复杂度为O(N^2)
@@ -59,5 +61,4 @@ def crawler(id, url, string, method):
 
     # need to change it , make zip while clicking download
     # make_zip(file_path, id)
-
-    return keep_unique(file_list)
+    return list(set(file_list))

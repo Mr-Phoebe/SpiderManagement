@@ -43,22 +43,27 @@ def get_all_fit_css(bs, now, num, task_id, file_list):
 
 
 # get all the Node with the same Path and CSS
-def get_pos_path(now, contain, path, node):
-    if path == node.path and now.attrs['class'] == node.get_parent()[1]:
+def get_pos_path(now, contain, path, node, lastclass):
+    if 'class' in now.attrs:
+        lastclass = now.attrs['class']
+    if path == node.path and lastclass == node.get_father()[1]:
         contain.append(now)
         return
     try:
         for child in now.children:
-            path.append(child.name)
-            get_pos_path(child, contain, path, node)
-            path.pop()
+            if child.name != None:
+                path.append(child.name)
+                get_pos_path(child, contain, path, node, lastclass)
+                path.pop()
     except:
         pass
     return
 
 
 # get all the Node with the same Path and CSS
-def get_all_fit_path(bs, node, num, task_id, file_list):
+def get_all_fit_path(bs, node, num, task_id, file_list, method):
     li = []
-    get_pos_path(bs, li, [], node)
-    cnt = 0
+    get_pos_path(bs, li, [], node, [])
+    if method:
+        for item in li:
+            print_tree(item, num, 0, task_id, file_list)

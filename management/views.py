@@ -180,7 +180,6 @@ def crawl(request):
                 task.method = method
                 task.save()
                 for file_name in file_list:
-                    print(file_name)
                     new_file = TaskFile(
                         name=file_name,
                         task=task
