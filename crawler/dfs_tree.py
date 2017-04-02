@@ -2,7 +2,7 @@
 # @Author: HaonanWu
 # @Date:   2017-03-15 10:22:04
 # @Last Modified by:   HaonanWu
-# @Last Modified time: 2017-04-01 22:46:29
+# @Last Modified time: 2017-04-02 13:10:24
 
 from crawler.Node import *
 from crawler.print_tree import *
@@ -19,6 +19,22 @@ def check_substring(stra, strb):
                 return True
     return False
 
+
+def LCA(nodex, nodey):
+    xdep = nodex.get_dep()
+    ydep = nodey.get_dep()
+    if xdep > ydep:
+        nodex, nodey = nodey, nodex
+    dist = ydep - xdep
+    xdomNode = nodex.bs4node
+    ydomNode = nodey.bs4node
+    while dist != 0:
+        ydomNode = ydomNode.parent
+        dist -= 1
+    while xdomNode != ydomNode:
+        xdomNode = xdomNode.parent
+        ydomNode = ydomNode.parent
+    return Node(xdomNode)
 
 # get the anchors position
 def get_anchor_pos(now, contain, string):
@@ -47,7 +63,7 @@ def get_pos_path(now, contain, path, node, lastclass):
     if 'class' in now.attrs:
         lastclass = now.attrs['class']
     if path == node.path and lastclass == node.get_father()[1]:
-        contain.append(now)
+        contain.append(Node(now))
         return
     try:
         for child in now.children:
@@ -66,4 +82,7 @@ def get_all_fit_path(bs, node, num, task_id, file_list, method):
     get_pos_path(bs, li, [], node, [])
     if method:
         for item in li:
-            print_tree(item, num, 0, task_id, file_list)
+            print_tree(item.bs4node, num, 0, task_id, file_list)
+    else:
+        for item in li:
+            pass
