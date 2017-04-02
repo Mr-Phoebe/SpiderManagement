@@ -41,20 +41,17 @@ def crawler(id, url, string, method):
     if anchor == []:
         return []
 
-    if method:  # 简洁抓取，则去重
-        fa_list = []
-        for node in anchor:
-            fa_list.append(node.get_father())
-        anchor = keep_unique(fa_list, anchor)
+    fa_list = []
+    for node in anchor:
+        fa_list.append(node.get_father())
+    anchor = keep_unique(fa_list, anchor)
 
-        file_list = []
-        num = 0
-        for node in anchor:
-            num += 1
-            get_all_fit_path(soup_packetpage, node, num, id, file_list, method)
+    file_list = []
+    num = 0
+    for node in anchor:
+        num += 1
+        get_all_fit_path(soup_packetpage, node, num, id, file_list, method)
     ############ 简洁抓取
-    else:  # 非简洁抓取
-        pass
     # 先得到对于每一个fa_list，得到它关于findAll的所有元素的LCA，找出最多的那个LCA，复杂度为O(N^2)
     # 解析LCA
     # 按照路径以及最终的attrs['class']分类

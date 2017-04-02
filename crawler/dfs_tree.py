@@ -6,6 +6,8 @@
 
 from crawler.Node import *
 from crawler.print_tree import *
+from crawler.tests import *
+import json
 
 def check_substring(stra, strb):
     lista = list(stra)
@@ -20,6 +22,7 @@ def check_substring(stra, strb):
     return False
 
 
+# get LCA of nodeX and nodeY, O(dep)
 def LCA(nodex, nodey):
     xdep = nodex.get_dep()
     ydep = nodey.get_dep()
@@ -80,9 +83,28 @@ def get_pos_path(now, contain, path, node, lastclass):
 def get_all_fit_path(bs, node, num, task_id, file_list, method):
     li = []
     get_pos_path(bs, li, [], node, [])
-    if method:
+    cnt = 0
+    if method == 'true':  # 简洁抓取
         for item in li:
             print_tree(item.bs4node, num, 0, task_id, file_list)
-    else:
+    else:  # 非简洁抓取
+        cnt_node = {}
+        cnt_max = -1
+        node_max = None
         for item in li:
-            pass
+            if cnt > 4:
+                break
+            lcanode = LCA(item, node)
+            nodejson = json.dumps((lcanode.get_path(), lcanode.get_father()))
+            if nodejson in cnt_node:
+                cnt_node[nodejson] += 1
+            else:
+                cnt_node[nodejson] = 1
+            if cnt_node[nodejson] > cnt_max:
+                cnt_max = cnt_node[nodejson]
+                node_max = lcanode
+            cnt += 1
+        print(cnt)
+        csv_split(node_max.bs4node.get_text(), 1, 0, task_id, file_list)
+        # 法1：这样输出一种
+        # 法2：传入一个bs4node，然后按照(path, father)来分类

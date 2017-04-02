@@ -177,14 +177,16 @@ def crawl(request):
             if file_list != []:
                 task = Task.objects.get(id=id)
                 task.hasfile = True
-                task.method = method
+                task.method = True if method == 'true' else False
                 task.save()
                 for file_name in file_list:
-                    new_file = TaskFile(
-                        name=file_name,
-                        task=task
-                    )
-                    new_file.save()
+                    file_have_list = TaskFile.objects.filter(name=file_name, task=task)
+                    if file_have_list == []:
+                        new_file = TaskFile(
+                            name=file_name,
+                            task=task
+                        )
+                        new_file.save()
                 return JsonResponse({'code': 0})
             else:
                 return JsonResponse({'code': -1, 'msg': '没有抓取内容'})

@@ -8,7 +8,12 @@
 
         begin_crawl = function () {
             var CheckboxObj = document.getElementById("clear_crawler")
-            if ("{{ task.hasfile }}" == "True" && Boolean("{{ task.method }}") == CheckboxObj.checked) {
+            if ("{{ task.method }}" == "False") {
+                var method = false
+            } else {
+                method = true
+            }
+            if ("{{ task.hasfile }}" == "True" && method == CheckboxObj.checked) {
                 alert('抓取成功');
             } else {
 
@@ -101,7 +106,11 @@
                 <br>
                 <div class="input-group col-md-12">
                     <span class="input-group-addon">
-                        <input type="checkbox" id="clear_crawler" checked="{{ task.method }}">
+                    {% if task.method == 0 %}
+                        <input type="checkbox" id="clear_crawler">
+                    {% else %}
+                        <input type="checkbox" id="clear_crawler" checked="true">
+                    {% endif %}
                     </span>
                     <input type="text" class="form-control" placeholder="是否简洁抓取" readonly>
                 </div>

@@ -2,7 +2,7 @@ import codecs
 
 
 def print_temp(fa, flag):
-    f1 = codecs.open('testha.txt', 'a+', encoding='utf-8')
+    f1 = codecs.open('test' + str(flag) + '.txt', 'a+', encoding='utf-8')
     f1.write(str(fa))
     s = flag * 10
     f1.write(s + "\n")
@@ -25,3 +25,14 @@ def test(soup_packetpage):
         if 'class' in item.attrs \
                 and item.attrs['class'] == ["brand-info", "brand-value-change", "brand-col-8"]:
             print(item)
+
+
+def print_split(fa, flag):
+    f1 = codecs.open('test' + str(flag) + '.txt', 'a+', encoding='utf-8')
+    line = fa.split('\n')
+    for i in line:
+        i = i.strip()
+        if i != '\n' and i != "":
+            f1.write(i)
+            f1.write('\n')
+    f1.close()

@@ -16,10 +16,17 @@ def csv_line(line, num, dep, task_id, file_list):
         os.mkdir(file_path)
     file_name = file_path + '/csv_' + str(num) + '_' + str(dep) + '.csv'
     file_list.append('csv_' + str(num) + '_' + str(dep) + '.csv')
-    csvfile = open(file_name, 'a+', newline='')
+    csvfile = codecs.open(file_name, 'a+', encoding='utf-8')
     writer = csv.writer(csvfile, dialect='excel')
     writer.writerow(line)
 
+
+def csv_split(fa, num, dep, task_id, file_list):
+    line = fa.split('\n')
+    for i in line:
+        i = i.strip()
+        if i != '\n' and i != "":
+            csv_line([i], num, dep, task_id, file_list)
 
 def csv_brother(ori, num, dep, task_id, file_list):
     cur = ori
