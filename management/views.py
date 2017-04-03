@@ -251,13 +251,25 @@ def view_task_data(request):
         file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
         csvfile = open(file_path + id + '/' + file_name, 'r')
         reader = csv.reader(csvfile)
+        num = 1
         for line in reader:
+            line = [num] + line
+            num += 1
             data_detail.append(line)
+        paginator = Paginator(data_detail, 50)
+        page = request.GET.get('page')
+        try:
+            data_detail = paginator.page(page)
+        except PageNotAnInteger:
+            data_detail = paginator.page(1)
+        except EmptyPage:
+            data_detail = paginator.page(paginator.num_pages)
 
         content = {
             'task': task,
+            'data_id': index,
             'file_name_list': file_name_list,
             'active_menu': 'view_data',
-            'data_detail': json.dumps(data_detail),
+            'data_detail': data_detail,
         }
         return render(request, 'management/view_task_data.html', content)
