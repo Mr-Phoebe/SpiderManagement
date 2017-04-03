@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from management.models import MyUser, Task, TaskFile
 from django.core.urlresolvers import reverse
 from crawler.get_bs4 import crawler
+from crawler.douban import crawle_douban
 from crawler.get_function import *
 from SP.settings import STATIC_ROOT
 import csv
@@ -164,6 +165,13 @@ def task_detail(request):
     }
     return render(request, 'management/task_detail.html', content)
 
+
+def douban(request):
+    if request.method == 'POST':
+        method = request.POST.get('task_method', '')
+        crawle_douban(method)
+        return JsonResponse({'code': 0})
+    return JsonResponse({'code': 1})
 
 @login_required
 def crawl(request):

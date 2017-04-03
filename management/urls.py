@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^view_task/crawl/$', views.crawl, name='crawl'),
     url(r'^view_task/download/$', views.download, name='download'),
     url(r'^view_task/data/$', views.view_task_data, name='data'),
+    url(r'^douban/$', views.douban, name='douban'),
 ]
