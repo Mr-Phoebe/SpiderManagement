@@ -166,6 +166,11 @@ def task_detail(request):
     return render(request, 'management/task_detail.html', content)
 
 
+def view_douban(request):
+    return render(request, 'management/douban.html')
+
+
+@login_required
 def douban(request):
     if request.method == 'POST':
         method = request.POST.get('task_method', '')
@@ -211,6 +216,13 @@ def download(request):
         return JsonResponse({'code': 0, 'url': '/static/data/' + zip_name})
     return JsonResponse({'code': 1})
 
+
+def download_douban(request):
+    file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
+    if request.method == 'POST':
+        zip_name = make_zip(file_path, '0')
+        return JsonResponse({'code': 0, 'url': '/static/data/' + zip_name})
+    return JsonResponse({'code': 1})
 
 def view_task_data(request):
     if request.method == 'POST':

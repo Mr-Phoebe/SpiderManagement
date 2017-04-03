@@ -16,7 +16,7 @@ def csv_line(line, num, dep, task_id, file_list):
         os.mkdir(file_path)
     file_name = file_path + '/csv_' + str(num) + '_' + str(dep) + '.csv'
     file_list.append('csv_' + str(num) + '_' + str(dep) + '.csv')
-    csvfile = codecs.open(file_name, 'a+', encoding='utf-8')
+    csvfile = codecs.open(file_name, 'a+', encoding='gbk')
     writer = csv.writer(csvfile, dialect='excel')
     writer.writerow(line)
 
