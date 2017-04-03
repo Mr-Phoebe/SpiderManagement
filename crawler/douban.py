@@ -1,14 +1,19 @@
 from crawler.print_tree import *
-import requests, json
+import requests, json, shutil
 import string
 
 
 def crawle_douban(method):
+    file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
+    if not os.path.exists(file_path):
+        os.mkdir(file_path)
+    if os.path.exists(file_path + '0'):
+        shutil.rmtree(file_path + '0')
     if method == 'true':
         html = r'https://api.douban.com/v2/movie/top250?start={page}'
         i = 1
         p = 1
-        while p <= 5:
+        while p <= 1:
             try:
                 hjson = json.loads(requests.get(html.format(page=(p - 1) * 20)).text)
             except Exception as e:
@@ -16,7 +21,7 @@ def crawle_douban(method):
             # 处理json，具体返回样例参照豆瓣API即可，输出格式：  排行：电影中文名---英文名（年代）
             for key in hjson['subjects']:
                 line = [str(i), key['title'], key['original_title'], key['year']]
-                csv_line(line, 0, 0, 0, [])
+                csv_line(line, 0, 0, '0', [])
                 i += 1
             p += 1
     else:
@@ -35,6 +40,6 @@ def crawle_douban(method):
             book_list = sorted(book_list, key=lambda x: float(x['rating']['average']), reverse=True)
             for key in book_list:
                 line = [str(i), key['id'], key['title'], key['author'][0], key['rating']['average']]
-                csv_line(line, 0, 1, 0, [])
+                csv_line(line, 0, 1, '0', [])
                 i += 1
             p += 1
