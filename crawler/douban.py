@@ -1,6 +1,5 @@
 from crawler.print_tree import *
 import requests, json, shutil
-import string
 
 
 def crawle_douban(method):
