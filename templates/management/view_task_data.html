@@ -1,22 +1,26 @@
 {% extends "management/base.html" %} {% load staticfiles %} {% block title %}查看任务{% endblock %} {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="col-md-2">
-                    <div class="btn-group-vertical">
-                        <a href="/view_task/detail/?id={{ task.id }}" class="list-group-item" id="id_category_all">
-                            全部文件
-                            {% for data in file_list %}
-                                <button type="button" class="btn btn-default">
-                                    {{ data }}
-                                </button>
-                            {% endfor %}
-                    </div>
-                    <script type="text/javascript">
-                        $('#id_category_{{ query_category }}').addClass("active");
-                    </script>
-                </div>
-                <div class="col-md-9 col-md-offset-1">
+            <div class="col-md-2">
+                <a href="/view_task/detail/?id={{ task.id }}" class="well-sm">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> 返回任务界面
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="btn-group-vertical col-md-2" style="margin-top: 20px;">
+                <button type="button" class="btn btn-defualt">
+                    文件列表
+                </button>
+                {% for id,name in file_name_list %}
+                    <button type="button" class="btn btn-primary">
+                    <a href="/view_task/data/?task_id={{ task.id }}&data_id={{ id }}" style="color: #000;">
+                    {{ name }}
+                {% endfor %}
+                </button>
+                </a>
+            </div>
+            <div class="col-md-9 col-md-offset-1">
                 <table class="table table-hover">
                     <!--                     <tbody>
                         {% for data in data_list %}
@@ -31,7 +35,6 @@
                         {% endfor %}
                     </tbody> -->
                 </table>
-            </div>
         </div>
     </div>
     </div>

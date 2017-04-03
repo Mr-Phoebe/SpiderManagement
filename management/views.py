@@ -194,7 +194,9 @@ def crawl(request):
                 task.save()
                 for file_name in file_list:
                     file_have_list = TaskFile.objects.filter(name=file_name, task=task)
-                    if file_have_list == []:
+                    print(file_have_list)
+                    if len(file_have_list) == 0:
+                        print('save')
                         new_file = TaskFile(
                             name=file_name,
                             task=task
@@ -225,24 +227,36 @@ def download_douban(request):
     return JsonResponse({'code': 1})
 
 def view_task_data(request):
-    if request.method == 'POST':
-        id = request.POST.get('task_id', '')
-        index = request.POST.get('data_id', '')
-        task = Task.objects.get(id=id)
-        file_list = TaskFile.objects.filter(task=task)
-        data_detail = []
+    user = request.user
+    id = request.GET.get('task_id', '')
+    index = request.GET.get('data_id', '')
+    task = Task.objects.get(id=id)
+    file_list = TaskFile.objects.filter(task=task)
+    data_detail = []
+    file_name_list = []
+    num = 0
+    for taskfile in file_list:
+        file_name_list.append((num, taskfile.name))
+        num += 1
+    if len(file_name_list) == 0:
+        content = {
+            'user': user,
+            'active_menu': 'view_task',
+            'task': task,
+        }
+        return render(request, 'management/task_detail.html', content)
+    else:
         file_name = file_list[int(index)].name
-        '''
+
         file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
-        csvfile = open(file_path + 'id' + file_name, 'r')
+        csvfile = open(file_path + id + '/' + file_name, 'r')
         reader = csv.reader(csvfile)
         for line in reader:
             data_detail.append(line)
-        '''
 
         content = {
             'task': task,
-            'data_list': file_list,
+            'file_name_list': file_name_list,
             'active_menu': 'view_data',
             'data_detail': json.dumps(data_detail),
         }
