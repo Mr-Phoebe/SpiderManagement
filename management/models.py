@@ -30,3 +30,9 @@ class Task(models.Model):
 class TaskFile(models.Model):
     name = models.CharField(max_length=512)
     task = models.ForeignKey(Task, related_name='file')
+
+    def __str__(self):
+        return self.name
+
+    class META:
+        ordering = ['name']
