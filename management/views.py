@@ -194,9 +194,7 @@ def crawl(request):
                 task.save()
                 for file_name in file_list:
                     file_have_list = TaskFile.objects.filter(name=file_name, task=task)
-                    print(file_have_list)
                     if len(file_have_list) == 0:
-                        print('save')
                         new_file = TaskFile(
                             name=file_name,
                             task=task
@@ -249,14 +247,14 @@ def view_task_data(request):
         file_name = file_list[int(index)].name
 
         file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
-        csvfile = open(file_path + id + '/' + file_name, 'r')
+        csvfile = open(file_path + id + '/' + file_name, 'r', encoding='utf-8')
         reader = csv.reader(csvfile)
         num = 1
         for line in reader:
             line = [num] + line
             num += 1
             data_detail.append(line)
-        paginator = Paginator(data_detail, 50)
+        paginator = Paginator(data_detail, 25)
         page = request.GET.get('page')
         try:
             data_detail = paginator.page(page)
