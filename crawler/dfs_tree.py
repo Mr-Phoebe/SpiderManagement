@@ -39,6 +39,41 @@ def LCA(nodex, nodey):
         ydomNode = ydomNode.parent
     return Node(xdomNode)
 
+
+# classify the info(string) by Path and CSS
+def split_path_css(now, path, lastclass, dic_key, dic_value, max_cnt):
+    try:
+        if 'class' in now.attrs:
+            lastclass = now.attrs['class']
+    except:
+        pass
+    try:
+        num = 0
+        for child in now.children:
+            num += 1
+            if child.name:
+                path.append(child.name)
+                split_path_css(child, path, lastclass, dic_key, dic_value, max_cnt)
+                path.pop()
+            else:
+                split_path_css(child, path, lastclass, dic_key, dic_value, max_cnt)
+    except Exception as e:
+        tmp = "" + now.string
+        tmp = tmp.strip()
+        if tmp == '\n' or tmp == '':
+            return
+        key = json.dumps((path, lastclass))
+        if not key in dic_key:
+            dic_key[key] = max_cnt[0]
+            max_cnt[0] += 1
+        if not dic_key[key] in dic_value:
+            dic_value[dic_key[key]] = []
+        dic_value[dic_key[key]] = dic_value[dic_key[key]] + [tmp]
+        max_cnt[1] = max(max_cnt[1], len(dic_value[dic_key[key]]))
+
+    return
+
+
 # get the anchors position
 def get_anchor_pos(now, contain, string):
     try:
@@ -101,6 +136,11 @@ def get_all_fit_path(bs, node, num, task_id, file_list, method):
             if cnt_node[nodejson] > cnt_max:
                 cnt_max = cnt_node[nodejson]
                 node_max = lcanode
+        # 法1：这样输出一列
         csv_split(node_max.bs4node.get_text(), 1, 0, task_id, file_list)
-        # 法1：这样输出一种
         # 法2：传入一个bs4node，然后按照(path, father)来分类
+        dic_key = {}
+        dic_value = {}
+        max_cnt = [1, 0]
+        split_path_css(node_max.bs4node, [], [], dic_key, dic_value, max_cnt)
+        csv_dic(dic_value, 1, 1, max_cnt[1], task_id, file_list)

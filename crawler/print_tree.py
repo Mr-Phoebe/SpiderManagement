@@ -25,11 +25,12 @@ def csv_line(line, num, dep, task_id, file_list):
     writer.writerow(line)
 
 
-def csv_dic(dic, num, dep, max_len):
-    file_path = "data\\"
+def csv_dic(dic, num, dep, max_len, task_id, file_list):
+    file_path = os.path.join(STATIC_ROOT, "data/" + task_id).replace('\\', '/')
     if not os.path.exists(file_path):
         os.mkdir(file_path)
-    file_name = file_path + 'csv_' + str(num) + '_' + str(dep) + '.csv'
+    file_name = file_path + '/csv_' + str(num) + '_' + str(dep) + '.csv'
+    file_list.append('csv_' + str(num) + '_' + str(dep) + '.csv')
     if not os.path.exists(file_name):
         csvfile = codecs.open(file_name, 'wb')
         csvfile.write(codecs.BOM_UTF8)
@@ -37,7 +38,6 @@ def csv_dic(dic, num, dep, max_len):
     csvfile = codecs.open(file_name, 'a+', encoding='utf-8')
     field_name = dic.keys()
     writer = csv.DictWriter(csvfile, fieldnames=field_name)
-
     for i in range(max_len):
         dic_line = {}
         for key, value in dic.items():
