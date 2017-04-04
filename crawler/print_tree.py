@@ -16,9 +16,35 @@ def csv_line(line, num, dep, task_id, file_list):
         os.mkdir(file_path)
     file_name = file_path + '/csv_' + str(num) + '_' + str(dep) + '.csv'
     file_list.append('csv_' + str(num) + '_' + str(dep) + '.csv')
+    if not os.path.exists(file_name):
+        csvfile = codecs.open(file_name, 'wb')
+        csvfile.write(codecs.BOM_UTF8)
+        csvfile.close()
     csvfile = codecs.open(file_name, 'a+', encoding='utf-8')
     writer = csv.writer(csvfile, dialect='excel')
     writer.writerow(line)
+
+
+def csv_dic(dic, num, dep, max_len):
+    file_path = "data\\"
+    if not os.path.exists(file_path):
+        os.mkdir(file_path)
+    file_name = file_path + 'csv_' + str(num) + '_' + str(dep) + '.csv'
+    if not os.path.exists(file_name):
+        csvfile = codecs.open(file_name, 'wb')
+        csvfile.write(codecs.BOM_UTF8)
+        csvfile.close()
+    csvfile = codecs.open(file_name, 'a+', encoding='utf-8')
+    field_name = dic.keys()
+    writer = csv.DictWriter(csvfile, fieldnames=field_name)
+
+    for i in range(max_len):
+        dic_line = {}
+        for key, value in dic.items():
+            if i >= len(value):
+                continue
+            dic_line[key] = value[i]
+        writer.writerow(dic_line)
 
 
 def csv_split(fa, num, dep, task_id, file_list):
