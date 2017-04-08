@@ -28,9 +28,9 @@
 </html>
 ```
 
-![](https://github.com/Mr-Phoebe/SpiderManagement/blob/master/doc/语法树.png)
+![](https://github.com/Mr-Phoebe/SpiderManagement/blob/master/doc/%E8%AF%AD%E6%B3%95%E6%A0%91.png)
 
-HTML语法树：HTML结构是一棵严格的多叉树，拥有唯一根节点`<html>`
+Dom树：HTML结构是一棵严格的多叉树，拥有唯一根节点`<html>`
 
 节点：在HTML中为某一个具体的标签，如`<head>`
 
@@ -53,7 +53,7 @@ contend：抓取内容，str对象，长度上限为128
 
 url：抓取网址，str对象
 
-BeautifulSoup：HTML语法树，由BeautifulSoup对HTML源码进行结构化分析而得到的BeautifulSoup对象
+BeautifulSoup：Dom树，由BeautifulSoup对HTML源码进行结构化分析而得到的BeautifulSoup对象
 
 Node：节点，对BeautifulSoup中T的ag对象进行了封装后得到
 
@@ -65,8 +65,20 @@ anchor：包含所有锚的list对象
 锚定位算法
 ---
 
-功能：选取出所有的锚
-返回：anchor
+### 功能
+
+选取出所有的锚
+
+### 返回
+
+None
+
+### 过程描述
+
+用深度优先搜索搜索整个Dom树，并通过孩子的个数找出每一个叶子节点
+判断叶子结点的字符串是否顺序包含抓取内容的每个字符，若是，则将此叶子节点加入anchor列表
+
+### 伪代码
 
 ```
 get_anchor_pos(Node):
@@ -79,10 +91,22 @@ get_anchor_pos(Node):
 ```
 
 
-用深度优先搜索搜索整个语法树，并通过孩子的个数找出每一个叶子节点
-判断叶子结点的字符串是否顺序包含抓取内容的每个字符，若是，则将此叶子节点加入anchor列表
+### 复杂度分析
 
-其中比较字符的时间复杂度为O(m)，m为叶子结点字符串的长度，时间复杂度与抓取内容的长度无关。
-总的时间复杂度为O(n*m)，其中n为叶子节点的个数
+N : Dom树的节点的总个数
+n : 叶子节点个数，且n<N
+m : 最长叶子节点字符串的长度
 
-此算法在列表类网页表现较为迅速，不善于处理新闻类网页。
+#### 时间复杂度
+
+搜索节点的时间复杂度为O(N)。  
+
+单次比较字符的最坏时间复杂度为O(m)，有相关剪枝操作，时间复杂度与抓取内容的长度无关。  
+
+总的时间复杂度为O(N+n*m)=O(n*m)
+
+介于新闻类网页的m常常会较大，此算法在列表类网页表现较为迅速，不善于处理新闻类网页。
+
+#### 空间复杂度
+
+此算法的空间复杂度为O(N+n)
