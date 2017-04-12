@@ -2,7 +2,7 @@
 # @Author: HaonanWu
 # @Date:   2017-03-15 10:23:15
 # @Last Modified by:   HaonanWu
-# @Last Modified time: 2017-03-18 10:31:24
+# @Last Modified time: 2017-04-12 15:36:36
 
 from bs4 import BeautifulSoup
 import requests
@@ -14,13 +14,17 @@ from crawler.tests import *
 
 def get_bs4(url):
     # user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
-    headers = {'User-Agent': user_agent}
-    r = requests.get(url, headers=headers)
-    soup = BeautifulSoup(r.text, "html.parser")
-    [script.extract() for script in soup.findAll('script')]
-    [style.extract() for style in soup.findAll('style')]
-    return soup
+    try:
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
+        headers = {'User-Agent': user_agent}
+        r = requests.get(url, headers=headers)
+        soup = BeautifulSoup(r.text, "html.parser")
+        [script.extract() for script in soup.findAll('script')]
+        [style.extract() for style in soup.findAll('style')]
+        return soup
+    except Exception as e:
+        print e
+        return None
 
 
 
@@ -36,6 +40,10 @@ def crawler(id, url, string, method):
 
     anchor = []
     soup_packetpage = get_bs4(url)
+    
+    if soup_packetpage == None:
+        return []
+
     get_anchor_pos(soup_packetpage, anchor, string)
 
     if anchor == []:
