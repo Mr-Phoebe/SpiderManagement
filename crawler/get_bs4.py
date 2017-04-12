@@ -23,7 +23,7 @@ def get_bs4(url):
         [style.extract() for style in soup.findAll('style')]
         return soup
     except Exception as e:
-        print e
+        print(e)
         return None
 
 
@@ -56,14 +56,13 @@ def crawler(id, url, string, method):
 
     file_list = []
     num = 0
-    for node in anchor:
-        num += 1
-        get_all_fit_path(soup_packetpage, node, num, id, file_list, method)
-    ############ 简洁抓取
-    # 先得到对于每一个fa_list，得到它关于findAll的所有元素的LCA，找出最多的那个LCA，复杂度为O(N^2)
-    # 解析LCA
-    # 按照路径以及最终的attrs['class']分类
-    # 将record中的内容按照标签路径（将路径变成json，然后进行hash）进行分类
+    try:
+        for node in anchor:
+            num += 1
+            get_all_fit_path(soup_packetpage, node, num, id, file_list, method)
+    except Exception as e:
+        print(e)
+        return []
 
 
     # need to change it , make zip while clicking download
