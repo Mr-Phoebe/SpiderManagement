@@ -210,6 +210,7 @@ def crawl(request):
 
 def download(request):
     file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
+    print("doown")
     if request.method == 'POST':
         id = request.POST.get('task_id', '')
         zip_name = make_zip(file_path, id)

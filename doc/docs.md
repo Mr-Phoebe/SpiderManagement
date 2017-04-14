@@ -55,7 +55,7 @@ url：抓取网址，str对象
 
 BeautifulSoup：Dom树，由BeautifulSoup对HTML源码进行结构化分析而得到的BeautifulSoup对象
 
-Node：节点，对BeautifulSoup中T的ag对象进行了封装后得到
+Node：节点，对BeautifulSoup中的Tag对象进行了封装后得到
 
 Leaves：叶子节点，为BeautifulSoup中的NavigableString对象
 
