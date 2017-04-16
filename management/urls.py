@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^douban/$', views.view_douban, name='view_douban'),
     url(r'^douban/crawle/$', views.douban, name='crawle_douban'),
     url(r'^douban/download/$', views.download_douban, name='download_douban'),
+    url(r'^brand_finance/$', views.view_brand_finance, name='view_brand_finance'),
 ]
