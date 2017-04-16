@@ -170,6 +170,9 @@ def view_douban(request):
     return render(request, 'management/douban.html')
 
 
+def view_brand_finance(request):
+    return render(request, 'management/brand_finance.html')
+
 @login_required
 def douban(request):
     if request.method == 'POST':

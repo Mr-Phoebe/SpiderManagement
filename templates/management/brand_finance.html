@@ -1,0 +1,108 @@
+{% extends "management/base.html" %} {% load staticfiles %} {% block title %}查看任务{% endblock %} {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">Brand Finance抓取</h2>
+                <br>
+                <div class="row">
+                    <div class="col-md-offset-4 dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="-1" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="true" style="margin:0 auto;width:50%;height:100%;">
+                            <div id="select">Dropdown</div>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="drop1">
+                            <li id="0"><a href="#">Action</a></li>
+                            <li id="1"><a href="#">Another action</a></li>
+                            <li id="2"><a href="#">Something else here</a></li>
+                            <li id="3"><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.col-md-6 -->
+                </div>
+                <br>
+                <div class="form-group  col-md-offset-3">
+                    <div class="col-md-4">
+                        <button class="btn btn btn-primary btn-block" type="crawl" onclick=""><span
+                                class="glyphicon glyphicon-screenshot"></span> 抓取
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- <a href="/static/data/zip0.zip"> -->
+                        <button class="btn btn btn-warning btn-block" type="export" onclick=""><span
+                                class="glyphicon glyphicon-floppy-save"></span> 导出全部
+                        </button>
+                        <!-- </a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var li = document.getElementsByTagName("li");
+        for (var i = 0; i < li.length; i++) {
+            getConsole(i);
+        }
+
+        function getConsole(i) {
+            li[i].addEventListener("click", function () {
+                var select = document.getElementById("select")
+                select.innerHTML = $(this).text()
+            });
+        }
+
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg)) return unescape(arr[2]);
+            else return null;
+        }
+        begin_crawl = function () {
+            var Check1 = document.getElementById("movie_crawler")
+            var Check2 = document.getElementById("book_crawler")
+            if (Check1.checked) {
+                var method = 'true'
+            } else if (Check2.checked) {
+                var method = 'false'
+            } else {
+                alert('请选择抓取方式')
+            }
+
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")
+                    }
+                });
+            });
+            $.post('/douban/crawle/', {
+                    task_method: method,
+                },
+                function (rep) {
+                    if (rep['code'] == 0) {
+                        alert('抓取成功');
+                        location.reload()
+                    } else if (rep['code'] == 1) {
+                        alert('任务错误');
+                    }
+                }, "json");
+        }
+        begin_download = function () {
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken")
+                    }
+                });
+            });
+            $.post('/douban/download/', {},
+                function (rep) {
+                    if (rep['code'] == 0) {
+                        window.location.href = rep['url']
+                    } else {
+                        alert('任务出错')
+                    }
+                }, "json");
+        }
+    </script>
+{% endblock %}
