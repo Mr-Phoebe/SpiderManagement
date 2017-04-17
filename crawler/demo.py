@@ -1,5 +1,7 @@
 from crawler.print_tree import *
-import requests, json, shutil
+from crawler.get_bs4 import *
+import requests as httpreq
+import json, shutil, threadpool
 
 
 def crawle_douban(method):
@@ -14,7 +16,7 @@ def crawle_douban(method):
         p = 1
         while p <= 1:
             try:
-                hjson = json.loads(requests.get(html.format(page=(p - 1) * 20)).text)
+                hjson = json.loads(httpreq.get(html.format(page=(p - 1) * 20)).text)
             except Exception as e:
                 return
             # 处理json，具体返回样例参照豆瓣API即可，输出格式：  排行：电影中文名---英文名（年代）
@@ -31,7 +33,7 @@ def crawle_douban(method):
         while p < len(book_tag_lists):
             dic = {'tag': book_tag_lists[p]}
             try:
-                hjson = json.loads(requests.get(html, dic).text)
+                hjson = json.loads(httpreq.get(html, dic).text)
             except Exception as e:
                 print(e)
             # 处理json，具体返回样例参照豆瓣API即可
@@ -42,3 +44,45 @@ def crawle_douban(method):
                 csv_line(line, 0, 1, '0', [])
                 i += 1
             p += 1
+
+
+def crawle_url(url, dep):
+    bs4 = get_bs4(url)
+    items = bs4.find_all("tr", {"class": "y2017"})
+    contain = []
+    for item in items:
+        for child in item:
+            get_string(child, contain)
+
+    rank = 1
+    le = len(contain)
+    line = []
+    for i in range(0, le):
+        if contain[i] == str(rank) and i + 1 < le and contain[i + 1] == str(rank):
+            csv_line(line, 0, dep, '0', [])
+            line = []
+            rank += 1
+        else:
+            line.append(contain[i])
+
+
+def crawle_brand():
+    # url =
+    urls = ["http://brandirectory.com/league_tables/table/global-500-2017",
+            "http://brandirectory.com/league_tables/table/china-100-2017"]
+    deps = ["2", "3"]
+    func_var = []
+
+    le = len(urls)
+
+    for i in range(le):
+        dic = {}
+        dic['url'] = urls[i]
+        dic['dep'] = deps[i]
+        tmp = (None, dic)
+        func_var.append(tmp)
+
+    pool = threadpool.ThreadPool(len(urls))
+    requests = threadpool.makeRequests(crawle_url, func_var)
+    [pool.putRequest(req) for req in requests]
+    pool.wait()

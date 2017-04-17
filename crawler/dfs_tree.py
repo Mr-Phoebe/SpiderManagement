@@ -144,3 +144,18 @@ def get_all_fit_path(bs, node, num, task_id, file_list, method):
         max_cnt = [1, 0]
         split_path_css(node_max.bs4node, [], [], dic_key, dic_value, max_cnt)
         csv_dic(dic_value, 1, 1, max_cnt[1], task_id, file_list)
+
+
+def get_string(now, contain):
+    try:
+        for child in now.children:
+            get_string(child, contain)
+    except Exception as e:
+        try:
+            tmp = "" + now.string
+            tmp = tmp.strip()
+            if tmp != '\n' and len(tmp) != 0:
+                contain.append(tmp)
+        except:
+            pass
+        return

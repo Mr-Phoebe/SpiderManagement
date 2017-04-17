@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from management.models import MyUser, Task, TaskFile
 from django.core.urlresolvers import reverse
 from crawler.get_bs4 import crawler
-from crawler.douban import crawle_douban
+from crawler.demo import crawle_douban
 from crawler.get_function import *
 from SP.settings import STATIC_ROOT
 import csv
