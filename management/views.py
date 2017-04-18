@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from management.models import MyUser, Task, TaskFile
 from django.core.urlresolvers import reverse
 from crawler.get_bs4 import crawler
-from crawler.demo import crawle_douban
+from crawler.demo import crawle_douban, crawle_brand_finance
 from crawler.get_function import *
 from SP.settings import STATIC_ROOT
 import csv
@@ -181,6 +181,14 @@ def douban(request):
         return JsonResponse({'code': 0})
     return JsonResponse({'code': 1})
 
+
+@login_required
+def brand_finance(request):
+    if request.method == 'POST':
+        crawle_brand_finance()
+        return JsonResponse({'code': 0})
+    return JsonResponse({'code': 1})
+
 @login_required
 def crawl(request):
     if request.method == 'POST':
@@ -213,7 +221,6 @@ def crawl(request):
 
 def download(request):
     file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
-    print("doown")
     if request.method == 'POST':
         id = request.POST.get('task_id', '')
         zip_name = make_zip(file_path, id)
@@ -225,6 +232,14 @@ def download_douban(request):
     file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
     if request.method == 'POST':
         zip_name = make_zip(file_path, '0')
+        return JsonResponse({'code': 0, 'url': '/static/data/' + zip_name})
+    return JsonResponse({'code': 1})
+
+
+def download_brand_finance(request):
+    file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
+    if request.method == 'POST':
+        zip_name = make_zip(file_path, '-1')
         return JsonResponse({'code': 0, 'url': '/static/data/' + zip_name})
     return JsonResponse({'code': 1})
 

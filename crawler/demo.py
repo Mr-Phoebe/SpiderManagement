@@ -56,21 +56,28 @@ def crawle_url(url, dep):
 
     rank = 1
     le = len(contain)
-    line = []
+    line = ['rank2017', 'rank2016', 'name', 'country',
+            'value2017', 'value2017', 'value2016', 'value2016',
+            'brand rating2017', 'brand rating2017', 'brand rating2016', 'brand rating2016']
     for i in range(0, le):
         if contain[i] == str(rank) and i + 1 < le and contain[i + 1] == str(rank):
-            csv_line(line, 0, dep, '0', [])
+            csv_line(line, 0, dep, '-1', [])
             line = []
             rank += 1
         else:
             line.append(contain[i])
 
 
-def crawle_brand():
-    # url =
+def crawle_brand_finance():
+    file_path = os.path.join(STATIC_ROOT, "data\\").replace('\\', '/')
+    if not os.path.exists(file_path):
+        os.mkdir(file_path)
+    if os.path.exists(file_path + '-1'):
+        shutil.rmtree(file_path + '-1')
     urls = ["http://brandirectory.com/league_tables/table/global-500-2017",
-            "http://brandirectory.com/league_tables/table/china-100-2017"]
-    deps = ["2", "3"]
+            "http://brandirectory.com/league_tables/table/china-100-2017",
+            "http://brandirectory.com/league_tables/table/us-500-2017"]
+    deps = ["1", "2", "3"]
     func_var = []
 
     le = len(urls)

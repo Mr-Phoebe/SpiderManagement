@@ -147,6 +147,13 @@ def get_all_fit_path(bs, node, num, task_id, file_list, method):
 
 
 def get_string(now, contain):
+    if now.name == 'a':
+        href = now.attrs['href']
+        if check_substring(href, 'country'):
+            tmp = href.split('/')
+            contain.append(tmp[3])
+            return
+
     try:
         for child in now.children:
             get_string(child, contain)

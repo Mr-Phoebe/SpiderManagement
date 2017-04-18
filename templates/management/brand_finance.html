@@ -5,31 +5,33 @@
                 <h2 class="text-center">Brand Finance抓取</h2>
                 <br>
                 <div class="row">
-                    <div class="col-md-offset-4 dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="true" style="margin:0 auto;width:50%;height:100%;">
-                            <div id="select">选择抓取内容</div>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="drop1">
-                            <li><a href="#">1. Action</a></li>
-                            <li><a href="#">2. Another action</a></li>
-                            <li><a href="#">3. Something else here</a></li>
-                            <li><a href="#">4. Separated link</a></li>
-                        </ul>
+                    <div class="input-group input-group-lg col-md-offset-1">
+                    <span class="input-group-addon" id="sizing-addon1"><span
+                            class="glyphicon glyphicon-plus">   </span></span>
+                        <input class="form-control" type="text" placeholder="Global" readonly>
+                    </div>
+                    <div class="input-group input-group-lg col-md-offset-1">
+                    <span class="input-group-addon" id="sizing-addon1"><span
+                            class="glyphicon glyphicon-plus">   </span></span>
+                        <input class="form-control" type="text" placeholder="China" readonly>
+                    </div>
+                    <div class="input-group input-group-lg col-md-offset-1">
+                    <span class="input-group-addon" id="sizing-addon1"><span
+                            class="glyphicon glyphicon-plus">   </span></span>
+                        <input class="form-control" type="text" placeholder="US" readonly>
                     </div>
                     <!-- /.col-md-6 -->
                 </div>
                 <br>
                 <div class="form-group  col-md-offset-3">
                     <div class="col-md-4">
-                        <button class="btn btn btn-primary btn-block" type="crawl" onclick=""><span
+                        <button class="btn btn btn-primary btn-block" type="crawl" onclick="begin_crawl()"><span
                                 class="glyphicon glyphicon-screenshot"></span> 抓取
                         </button>
                     </div>
                     <div class="col-md-4">
                         <!-- <a href="/static/data/zip0.zip"> -->
-                        <button class="btn btn btn-warning btn-block" type="export" onclick=""><span
+                        <button class="btn btn btn-warning btn-block" type="export" onclick="begin_download()"><span
                                 class="glyphicon glyphicon-floppy-save"></span> 导出全部
                         </button>
                         <!-- </a> -->
@@ -39,34 +41,12 @@
         </div>
     </div>
     <script>
-        var li = document.getElementsByTagName("li");
-        for (var i = 0; i < li.length; i++) {
-            getConsole(i);
-        }
-
-        function getConsole(i) {
-            li[i].addEventListener("click", function () {
-                var select = document.getElementById("select")
-                select.innerHTML = $(this).text()
-            });
-        }
-
         function getCookie(name) {
             var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
             if (arr = document.cookie.match(reg)) return unescape(arr[2]);
             else return null;
         }
         begin_crawl = function () {
-            var Check1 = document.getElementById("movie_crawler")
-            var Check2 = document.getElementById("book_crawler")
-            if (Check1.checked) {
-                var method = 'true'
-            } else if (Check2.checked) {
-                var method = 'false'
-            } else {
-                alert('请选择抓取方式')
-            }
-
             $(function () {
                 $.ajaxSetup({
                     headers: {
@@ -74,9 +54,7 @@
                     }
                 });
             });
-            $.post('/douban/crawle/', {
-                    task_method: method,
-                },
+            $.post('/brand_finance/crawle/', {},
                 function (rep) {
                     if (rep['code'] == 0) {
                         alert('抓取成功');
@@ -94,7 +72,7 @@
                     }
                 });
             });
-            $.post('/douban/download/', {},
+            $.post('/brand_finance/download/', {},
                 function (rep) {
                     if (rep['code'] == 0) {
                         window.location.href = rep['url']
